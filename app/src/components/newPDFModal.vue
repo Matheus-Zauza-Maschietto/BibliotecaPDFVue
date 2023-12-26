@@ -4,7 +4,7 @@
             <div class="modal-content" >
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Selecionar o arquivo PDF</h1>
-                    <span style="color: red;" class="fs-3" @click="closeModal()">
+                    <span style="color: red;" class="fs-3 hover-click" @click="closeModal()">
                         <font-awesome-icon icon="fa-solid fa-xmark"/>
                     </span>
                 </div>
@@ -56,6 +56,9 @@ export default {
 </script>
 
 <style scoped>
+.newPDFModal{
+    backdrop-filter: blur(10px);
+}
 .modal-content{
     background-color: #1D1D1D;
 }

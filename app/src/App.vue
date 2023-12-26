@@ -10,4 +10,8 @@
   text-align: center;
   color: #d9d9d9;
 }
+
+.hover-click:hover{
+  cursor: pointer;
+}
 </style>
