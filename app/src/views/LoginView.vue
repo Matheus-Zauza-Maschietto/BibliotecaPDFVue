@@ -38,7 +38,7 @@ export default {
         login() {
             Usuario.login(this.fields)
                 .then((response) => {
-                    console.log(response)
+                    Usuario.setToken(response.data.response)
                     this.$store.commit('token', response.data.response)
                     this.$router.push('/')
                 })

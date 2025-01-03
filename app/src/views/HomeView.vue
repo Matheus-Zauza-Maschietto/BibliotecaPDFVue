@@ -11,7 +11,7 @@
     </header>
     <newPDFModal :modalIsOpen="modalIsOpen" @fecharModal="modalIsOpen=false" />
     <body class="col-9 m-auto p-1 mt-3 body row row-cols-md-3 row-cols-sm-2 row-cols-1 overflow-y-scroll rounded">
-      <pdfCard v-for="pdf in pdfsList" :key="pdf.name" fileName="pdf.name"/>
+      <pdfCard v-for="pdf in pdfsList" :key="pdf.fileName" :fileName="pdf.fileName"/>
     </body>
   </div>
 </template>
@@ -42,13 +42,12 @@ export default {
 
   async created() {
     try {
-      console.log(this.$store.state)
       const response = await Pdf.getAll(this.$store.state.token);
-      console.log(response)
       this.pdfsList = response.data.response;
+      console.log(this.pdfsList)
     } catch (err) {
       console.log(err)
-      this.error = 'Failed to load posts. Please try again.';
+      this.error = 'Erro ao carregar os PDFs, por favor recarregue a pagina.';
     }
   },
 }

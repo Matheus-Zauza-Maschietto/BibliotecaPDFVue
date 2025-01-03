@@ -7,6 +7,10 @@ class Usuario{
     static login(body){
         return api.post('/api/User/Login', body)
     }
+    static setToken(token){
+        api.defaults.headers.common.Authorization = `Bearer ${token}`
+
+    }
 }
 
 export default Usuario
