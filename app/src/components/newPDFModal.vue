@@ -97,9 +97,11 @@ export default {
             }
 
             const formData = new FormData();
-            formData.append('formFile', this.file);
             if (this.personalizedText && this.customFileName.trim()) {
-                formData.append('customName', this.customFileName.trim());
+                formData.append('formFile', this.file, this.customFileName.trim());
+            }
+            else {
+                formData.append('formFile', this.file);
             }
 
             try {

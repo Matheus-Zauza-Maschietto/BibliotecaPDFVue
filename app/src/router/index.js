@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import store from '@/store'
-
+import Usuario from '@/services/Usuario'
 
 const routes = [
   {
@@ -29,6 +29,14 @@ const routes = [
     },
   },
   {
+    path: '/pdf/:encodedPdfName',
+    name: 'pdf',
+    component: () => import('../views/PdfView.vue'),
+    meta: {
+      requireAuth: true
+    },
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
@@ -45,7 +53,22 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
 
-  let isAuth = store.state.isAuthenticated
+  let isAuth;
+  const token = localStorage.getItem('token');
+  await Usuario.checkToken(token)
+  .then((response) => {
+    if(response.status == 200){
+      Usuario.setToken(token);
+      store.commit('token', token);
+      isAuth = true;
+    }
+    else {
+      isAuth = false;
+    }
+  })
+  .catch(() => {
+    isAuth = false;
+  });
 
   const requiresAuth = to.matched.some(p => p.meta.requireAuth)
 
