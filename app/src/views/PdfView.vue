@@ -10,14 +10,13 @@
             <p>{{ errorMessage }}</p>
         </div>
         <iframe v-else-if="pdfBlobUrl" :src="pdfBlobUrl" width="100%" height="100%"></iframe>
-        <div v-else class="fs-3">
-            <p>Carregando PDF...</p>
-        </div>
+        <loadingComponent v-else/>
     </div>
 </template>
 
 <script>
     import Pdf from '@/services/Pdf';
+    import loadingComponent from '@/components/loadingComponent.vue';
 
     export default {
         name: "PdfView",
@@ -26,6 +25,9 @@
                 pdfBlobUrl: null,
                 errorMessage: null
             };
+        },
+        components: {
+            loadingComponent
         },
         methods: {
             async fetchPdf() {

@@ -3,14 +3,13 @@
         <titleComponent />
         <div class="back-drop d-flex justify-content-center align-items-center flex-column rounded p-4">
             <form @submit.prevent="createAccount" class="w-100">
-                <h1 class="mb-3">Biblioteca PDF</h1>
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">Email</label>
                     <input type="email" class="form-control" id="emailInput" v-model="fields.email" placeholder="Digite seu E-Mail aqui" />
                 </div>
                 <div class="mb-3">
                     <label for="nomeInput" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nomeInput" v-model="fields.userName" placeholder="Digite seu nome aqui" />
+                    <input type="text" class="form-control" id="nomeInput" v-model="fields.name" placeholder="Digite seu nome aqui" />
                 </div>
                 <div class="mb-3">
                     <label for="passwordInput" class="form-label">Senha</label>
@@ -41,7 +40,7 @@ export default {
     data() {
         return {
             fields: {
-                userName: '',
+                name: '',
                 email: '',
                 password: '',
                 confirmPassword: ''

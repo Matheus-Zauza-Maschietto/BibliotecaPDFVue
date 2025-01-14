@@ -24,7 +24,7 @@
                             value="" 
                             id="flexCheckDefault" 
                             @click="personalizedText = !personalizedText">
-                        <label class="form-check-label" for="flexCheckDefault">
+                        <label class="form-check-label text-white" for="flexCheckDefault">
                             Adicionar nome personalizado ao arquivo
                         </label>
                     </div>
@@ -73,7 +73,7 @@ export default {
         },
 
         closeModal() {
-            this.$emit("fecharModal", "");
+            this.$emit("closeModal", "");
         },
 
         getPersonalizedTextDisplay() {
@@ -86,7 +86,7 @@ export default {
                 this.file = selectedFile;
             } else {
                 this.file = null;
-                alert("Please select a valid PDF file.");
+                alert("Por favor selecione um arquivo PDF valido.");
             }
         },
 
@@ -106,12 +106,12 @@ export default {
 
             try {
                 const response = await Pdf.postFile(formData);
-                alert(`PDF adicionado com sucesso: ${response.data.message}`);
+                alert(`${response.data.messages.find(p => p)}`);
                 this.closeModal();
             } catch (error) {
-                console.error('Error uploading file:', error);
                 alert('Erro ao adicionar PDF, por favor tente novamente !');
             }
+            this.$emit('newPdf', true)
         }
     }
 };

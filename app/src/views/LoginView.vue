@@ -1,8 +1,8 @@
 <template>
     <div class="background d-flex justify-content-center align-items-center flex-column">
         <titleComponent/>
-        <div class="back-drop d-flex justify-content-center align-items-center flex-column rounded p-4">
-            <form @submit.prevent="login" class="w-100">
+        <div class="back-drop d-flex justify-content-center align-items-center flex-column rounded">
+            <form @submit.prevent="login" class="w-100 p-4 p-md-0">
                 <h2 class="mb-5 mt-3">Login</h2>
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">E-Mail</label>
@@ -54,7 +54,8 @@ export default {
                 })
                 .catch((error) => {
                     this.showErrors = true;
-                    this.errorMessage = error.response.data.messages.find(p => p)
+                    this.errorMessage = error?.response?.data?.messages?.find(p => p) ?? "Houve um erro, tente novamente mais tarde."
+                    
                     setTimeout(() => {
                         this.showErrors = false;
                     }, 6000)

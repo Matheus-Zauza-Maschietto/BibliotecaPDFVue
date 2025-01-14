@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <userComponent/>
     <header>
       <titleComponent></titleComponent>
       <div class="col-9 m-auto p-1 mt-5 cabecalho rounded position-relative">
@@ -11,16 +12,21 @@
     </header>
     <newPDFModal 
         :modalIsOpen="modalIsOpen" 
-        @fecharModal="modalIsOpen=false" 
+        @closeModal="modalIsOpen=false" 
+        @newPdf="loadPdfs()"
     />
-    <body class="col-9 m-auto p-1 mt-3 body row row-cols-md-3 row-cols-sm-2 row-cols-1 overflow-y-scroll rounded">
-      <pdfCard 
-          v-for="pdf in pdfsList" 
-          :key="pdf.fileName" 
-          :fileName="pdf.fileName" 
-          :isFavorited="pdf.isFavorite"
-          @favorite="switchFavorite(pdf, $event)"
-      />
+    <body class="col-9 m-auto p-1 mt-3 body overflow-y-scroll rounded">
+      <loadingComponent v-if="showLoadComponent" />
+      <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1" v-else>
+
+        <pdfCard 
+            v-for="pdf in pdfsList" 
+            :key="pdf.fileName" 
+            :fileName="pdf.fileName" 
+            :isFavorited="pdf.isFavorite"
+            @favorite="switchFavorite(pdf, $event)"
+        />
+      </div>
     </body>
   </div>
 </template>
@@ -31,18 +37,23 @@ import pdfCard from '@/components/pdfCard.vue';
 import newPDFModal from '@/components/newPDFModal.vue';
 import Pdf from '@/services/Pdf';
 import titleComponent from '@/components/titleComponent.vue';
+import loadingComponent from '@/components/loadingComponent.vue';
+import userComponent from '@/components/userComponent.vue'
 
 export default {
   name: 'HomeView',
   components: {
     pdfCard,
     newPDFModal,
-    titleComponent
+    titleComponent,
+    loadingComponent,
+    userComponent
   },
   data(){
     return{
       modalIsOpen: false,
-      pdfsList: []
+      pdfsList: [],
+      showLoadComponent: false
     }
   },
   methods:{
@@ -52,16 +63,23 @@ export default {
     switchFavorite(pdf, event){
       pdf.isFavorite = event
       this.pdfsList = this.pdfsList.sort((a, b) => b.isFavorite - a.isFavorite);
+    },
+    async loadPdfs(){
+      try {
+        this.showLoadComponent = true;
+        const response = await Pdf.getAll(this.$store.state.token);
+        this.pdfsList = response.data.response.sort((a, b) => b.isFavorite - a.isFavorite);
+      } catch (err) {
+        this.error = 'Erro ao carregar os PDFs, por favor recarregue a pagina.';
+      }
+      finally{
+        this.showLoadComponent = false;
+      }
     }
   },
 
   async created() {
-    try {
-      const response = await Pdf.getAll(this.$store.state.token);
-      this.pdfsList = response.data.response.sort((a, b) => b.isFavorite - a.isFavorite);
-    } catch (err) {
-      this.error = 'Erro ao carregar os PDFs, por favor recarregue a pagina.';
-    }
+    this.loadPdfs()
   },
 }
 </script>

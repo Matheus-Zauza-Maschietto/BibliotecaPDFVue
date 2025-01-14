@@ -21,6 +21,10 @@ class Usuario{
             }
         })
     }
+    
+    static getSelf(){
+        return api.post('/api/User/Self')
+    }
 }
 
 export default Usuario
