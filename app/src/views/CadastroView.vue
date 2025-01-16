@@ -19,12 +19,13 @@
                     <label for="passwordInput" class="form-label">Confirmar Senha</label>
                     <input type="password" class="form-control" id="passwordInput" v-model="fields.confirmPassword" placeholder="Digite novamente sua senha aqui" />
                 </div>
-                <div class="mb-3 bg-danger rounded p-2" :class="showErrors == false ? 'visually-hidden' : ''">
-                    <span class="text-bg-danger text-wrap" >
-                        {{ errorMessage }}
+                <div class="mb-3 rounded p-2" :class="{'visually-hidden': !showMessages, 'bg-danger': toastIsErro, 'bg-success': !toastIsErro}">
+                    <span :class="toastIsErro == true ? 'text-bg-danger' : 'text-bg-success'" class="text-wrap" >
+                        {{ toastMessage }}
                     </span>
                 </div>
-                <button type="submit" class="btn btn-dark w-100" @click="createAccount()">Criar Conta</button>
+                <loadingComponent v-if="loading"/>
+                <button type="submit" class="btn btn-dark w-100">Criar Conta</button>
             </form>
             <router-link to="login" class="m-3 text-decoration-none">Fazer login</router-link>
         </div>
@@ -34,6 +35,7 @@
 <script>
 import Usuario from '@/services/Usuario';
 import titleComponent from '@/components/titleComponent.vue';
+import loadingComponent from '@/components/loadingComponent.vue';
 
 export default {
     name: "CadastroView",
@@ -45,24 +47,36 @@ export default {
                 password: '',
                 confirmPassword: ''
             },
-            showErrors: false,
-            errorMessage: '',
+            loading: false,
+            toastIsErro: true,
+            showMessages: false,
+            toastMessage: '',
         }
     },
     components: {
-        titleComponent
+        titleComponent,
+        loadingComponent
     },
     methods: {
         createAccount() {
+            this.loading = true
             Usuario.cadastro(this.fields)
-                .then(() => {
-                    this.$router.push('/login')
+                .then(async (response) => {
+                    this.loading = false
+                    this.toastIsErro = false
+                    this.showMessages = true
+                    this.toastMessage = response.data.messages.find(p => p)
+                    await setTimeout(() => {
+                        this.$router.push('/login')
+                    }, 6000)
                 })
                 .catch((error) => {
-                    this.showErrors = true;
-                    this.errorMessage = error.response.data.messages.find(p => p)
+                    this.loading = false
+                    this.toastIsErro = true
+                    this.showMessages = true;
+                    this.toastMessage = error.response.data.messages.find(p => p)
                     setTimeout(() => {
-                        this.showErrors = false;
+                        this.showMessages = false;
                     }, 6000)
                 })
         }

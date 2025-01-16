@@ -45,6 +45,14 @@ const routes = [
     },
   },
   {
+    path: '/usuario/:id/ativar/:token',
+    name: 'ativar',
+    component: () => import( '../views/UserActivationView.vue'),
+    meta: {
+      requireAuth: false
+    },
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),

@@ -25,6 +25,10 @@ class Usuario{
     static getSelf(){
         return api.post('/api/User/Self')
     }
+
+    static active(id, token){
+        return api.post(`/api/User/${id}/Active?token=${token}`)
+    }
 }
 
 export default Usuario
