@@ -42,7 +42,7 @@
                         type="button" 
                         class="btn btn-success mx-auto my-2" 
                         @click="postPDFFile"
-                        :disabled="!file"
+                        :disabled="disableButton"
                     >
                         Adicionar PDF selecionado
                     </button>
@@ -64,7 +64,8 @@ export default {
         return {
             personalizedText: false,
             file: null,
-            customFileName: ''
+            customFileName: '',
+            disableButton: false
         };
     },
     methods: {
@@ -91,8 +92,10 @@ export default {
         },
 
         async postPDFFile() {
+            this.disableButton = true;
             if (!this.file) {
                 alert("No file selected.");
+                this.disableButton = false;
                 return;
             }
 
@@ -108,8 +111,10 @@ export default {
                 const response = await Pdf.postFile(formData);
                 alert(`${response.data.messages.find(p => p)}`);
                 this.closeModal();
+                this.disableButton = false;
             } catch (error) {
                 alert('Erro ao adicionar PDF, por favor tente novamente !');
+                this.disableButton = false;
             }
             this.$emit('newPdf', true)
         }

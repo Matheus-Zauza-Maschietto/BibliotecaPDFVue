@@ -13,10 +13,10 @@
             <br>
             <ul class="h-75 d-flex flex-column justify-content-start border-top">
                 <li class="m-4">
-                    <router-link to="/" class="fs-4 text-decoration-none">Home</router-link>
+                    <router-link to="/" class="fs-4 text-decoration-none">Inicio</router-link>
                 </li>
                 <li class="m-4">
-                    <router-link to="perfil" class="fs-4 text-decoration-none">Perfil</router-link>
+                    <router-link to="perfil" class="fs-4 text-decoration-none">Configurações</router-link>
                 </li>
             </ul>
             <div class="w-100 bottom-0 end-0 m-2 position-absolute">
