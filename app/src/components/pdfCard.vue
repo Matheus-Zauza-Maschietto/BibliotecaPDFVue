@@ -27,10 +27,11 @@ export default {
             this.$router.push(`/pdf/${encodedPdfName}`);
         },
         getPdfName(){
-            if(this.fileName.length <= 20)
-                return this.fileName;
+            let fileName = this.fileName.replace('.pdf', '');
+            if(fileName.length <= 20)
+                return fileName;
             else
-                return this.fileName.substring(0, 17)+'...'
+                return fileName.substring(0, 17)+'...'
         },
         async switchFavorite(){
             if(this.isFavorited){
