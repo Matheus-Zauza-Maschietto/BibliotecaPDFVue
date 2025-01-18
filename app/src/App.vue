@@ -7,6 +7,7 @@
 *{
   --background-color: #1D1D1D;
   --white: #F4F4F4;
+  --card-gray: #D9D9D9;
 }
 
 #app {

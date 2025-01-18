@@ -1,14 +1,16 @@
 <template>
-  <div class="pdfcard col p-4" @click="openPdf()">
-    <div class="d-flex flex-column border border-3 py-3 rounded h-100 hover-click position-relative">
+  <div class="pdf-card d-flex flex-column col p-0 m-2" @click="openPdf()">
+    <div class="internal-card hover-click position-relative">
         <div class="favorite position-absolute">
             <font-awesome-icon icon="fa-solid fa-star" style="color: rgb(211 164 0);" class="favorite-icon" v-if="isFavorited" @click.stop="switchFavorite()" />
             <font-awesome-icon icon="fa-regular fa-star" style="color: rgb(211 164 0);" class="favorite-icon" v-else @click.stop="switchFavorite()" />
         </div>
-        <div class="imgDiv d-flex align-items-center justify-content-center overflow-hidden w-100">
-            <img :src="fileImg == null ? 'https://cdn-icons-png.flaticon.com/512/482/482216.png' : fileImg" alt="" class="h-100 object-fit-contain">
-        </div>
-        <span class="cardText fs-5 text-center m-2">{{ fileName }}</span>
+        <font-awesome-icon icon="fa-regular fa-file-pdf" class="pdf-icon position-absolute"/>
+        <span class="fs-5 w-100 text-nowrap text-center my-2 position-absolute bottom-0">{{ getPdfName() }}</span>
+    </div>
+    <div class="card-functions d-flex justify-content-evenly">
+        <font-awesome-icon icon="fa-solid fa-pencil" class="edit-function hover-click" @click.stop="" />
+        <font-awesome-icon icon="fa-solid fa-trash" class="delete-function hover-click" @click.stop="" />
     </div>
   </div>
 </template>
@@ -23,6 +25,12 @@ export default {
         openPdf() {
             const encodedPdfName = encodeURIComponent(this.fileName);
             this.$router.push(`/pdf/${encodedPdfName}`);
+        },
+        getPdfName(){
+            if(this.fileName.length <= 20)
+                return this.fileName;
+            else
+                return this.fileName.substring(0, 17)+'...'
         },
         async switchFavorite(){
             if(this.isFavorited){
@@ -46,15 +54,20 @@ export default {
 </script>
 
 <style>
-.imgDiv{
+.pdf-image{
     height: 90%;
 }
-.cardText{
-    height: 10%;
+
+.pdf-card{
+    height: 300px;
+    width: 250px;
+    border-radius: 10px;
+    background: var(--background-color);
 }
 
-.pdfcard{
-    height: 250px;
+.internal-card {
+    background: var(--white);
+    border-radius: 10px;
 }
 
 .favorite{
@@ -67,9 +80,35 @@ export default {
     transition-duration: 0.3s;
 }
 
+.internal-card {
+    width: 225px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 15px auto;
+}
+
 .favorite-icon:hover{
     cursor: pointer;
     transform: scale(1.15);
+}
+
+.pdf-icon {
+    font-size: 110px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.edit-function {
+    color: var(--card-gray);
+    font-size: 29px;
+}
+
+.delete-function {
+    color: red;
+    font-size: 29px;
 }
 
 </style>

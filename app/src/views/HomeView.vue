@@ -1,23 +1,23 @@
 <template>
   <div class="home">
     <userComponent/>
-    <header>
-      <titleComponent></titleComponent>
-      <div class="col-9 m-auto p-1 mt-5 cabecalho rounded position-relative">
+    <newPDFModal 
+        :modalIsOpen="modalIsOpen" 
+        @closeModal="modalIsOpen=false" 
+        @newPdf="loadPdfs()"
+    />
+    <header class="mb-3">
+      <titleComponent/>
+      <div class="col-11 col-md-9 m-auto p-1 mt-5 cabecalho rounded position-relative">
         <h2>Meus PDFs</h2>
         <span class="appendPDFBtn fs-1 hover-click" @click="openModal()">
           <font-awesome-icon icon="fa-solid fa-plus"/>
         </span>
       </div>
     </header>
-    <newPDFModal 
-        :modalIsOpen="modalIsOpen" 
-        @closeModal="modalIsOpen=false" 
-        @newPdf="loadPdfs()"
-    />
-    <body class="col-9 m-auto p-1 mt-3 body overflow-y-scroll rounded">
+    <body class="col-11 col-md-9 m-auto p-1 overflow-y-auto overflow-x-hidden rounded">
       <loadingComponent v-if="showLoadComponent" />
-      <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1" v-else>
+      <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 justify-content-around g-4 p-4" v-else>
 
         <pdfCard 
             v-for="pdf in pdfsList" 
@@ -88,21 +88,23 @@ export default {
   .home{
     background: var(--background-color);
     height: 100vh;
+    display: grid;
+    grid-template-rows: min-content 1fr;
   }
   h1{
     color: var(--white);
+  }
+
+  body {
+    height: 100%;
   }
 
   h2{
     color: black; 
   }
 
-  .cabecalho, .body{
-    background: #D9D9D9;
-  }
-
-  .body{
-    height: 70%;
+  .cabecalho, body{
+    background-color: var(--bs-body-bg);
   }
 
   .appendPDFBtn{
@@ -110,6 +112,6 @@ export default {
     transform: translateY(-50%);
     position: absolute;
     right: 10px;
-    color: green;
+    color: var(--background-color);
   }
 </style>

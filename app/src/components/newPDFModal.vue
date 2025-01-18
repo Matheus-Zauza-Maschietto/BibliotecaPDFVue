@@ -23,6 +23,7 @@
                             type="checkbox" 
                             value="" 
                             id="flexCheckDefault" 
+                            :checked="personalizedText"
                             @click="personalizedText = !personalizedText">
                         <label class="form-check-label text-white" for="flexCheckDefault">
                             Adicionar nome personalizado ao arquivo
@@ -37,7 +38,8 @@
                             v-model="customFileName">
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex flex-column justify-content-around">
+                    <loadingComponent v-if="disableButton"/>
                     <button 
                         type="button" 
                         class="btn btn-success mx-auto my-2" 
@@ -54,11 +56,15 @@
 
 <script>
 import Pdf from '@/services/Pdf';
+import loadingComponent from './loadingComponent.vue';
 
 export default {
     name: "newPDFModal",
     props: {
         "modalIsOpen": Boolean
+    },
+    components: {
+        loadingComponent
     },
     data() {
         return {
@@ -75,6 +81,10 @@ export default {
 
         closeModal() {
             this.$emit("closeModal", "");
+            this.file = null;
+            this.personalizedText = false;
+            this.customFileName = '';
+            this.disableButton = false;
         },
 
         getPersonalizedTextDisplay() {
@@ -111,12 +121,17 @@ export default {
                 const response = await Pdf.postFile(formData);
                 alert(`${response.data.messages.find(p => p)}`);
                 this.closeModal();
-                this.disableButton = false;
+
             } catch (error) {
                 alert('Erro ao adicionar PDF, por favor tente novamente !');
-                this.disableButton = false;
             }
-            this.$emit('newPdf', true)
+            finally {
+                this.file = null;
+                this.personalizedText = false;
+                this.customFileName = '';
+                this.disableButton = false;
+                this.$emit('newPdf', true)
+            }
         }
     }
 };
