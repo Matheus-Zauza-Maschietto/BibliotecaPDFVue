@@ -2,7 +2,7 @@
     <div class="background d-flex justify-content-center align-items-center flex-column">
         <titleComponent/>
         <div class="back-drop d-flex justify-content-center align-items-center flex-column rounded">
-            <form @submit.prevent="login" class="w-100 p-4 p-md-0">
+            <form @submit.prevent="login" class="w-100 p-4 p-xl-0">
                 <h2 class="mb-5 mt-3">Login</h2>
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">E-Mail</label>

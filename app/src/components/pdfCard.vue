@@ -1,6 +1,6 @@
 <template>
-  <div class="pdf-card d-flex flex-column col p-0 m-2" @click="openPdf()">
-    <div class="internal-card hover-click position-relative">
+  <div class="pdf-card col p-2 m-2 position-relative rounded" @click="openPdf()">
+    <div class="internal-card hover-click position-relative rounded">
         <div class="favorite position-absolute">
             <font-awesome-icon icon="fa-solid fa-star" style="color: rgb(211 164 0);" class="function-icon" v-if="isFavorited" @click.stop="switchFavorite()" />
             <font-awesome-icon icon="fa-regular fa-star" style="color: rgb(211 164 0);" class="function-icon" v-else @click.stop="switchFavorite()" />
@@ -13,8 +13,16 @@
             <font-awesome-icon icon="fa-solid fa-pencil" class="edit-function" @click.stop="" />
         </button>
         <button class="btn btn-dark function-icon-button">
-            <font-awesome-icon icon="fa-solid fa-trash" class="delete-function" @click.stop="" />
+            <font-awesome-icon icon="fa-solid fa-trash" class="delete-function" @click.stop="deleteCard = true" />
         </button>
+    </div>
+    <div class="position-absolute top-0 start-0 h-100 z-2 delete-confirm rounded" :style="{'width': deleteCard ? '100%' : '0%' }" @click.stop="" >
+        <div class="position-relative w-100 h-100">
+            <button class="btn btn-close top-0 end-0 m-3 position-absolute" :style="{'display': deleteCard ? 'block' : 'none' }" @click.stop="deleteCard = false">
+
+            </button>
+
+        </div>
     </div>
   </div>
 </template>
@@ -25,6 +33,11 @@ import Pdf from '@/services/Pdf';
 export default {
     name: "pdfCard",
     props: ["fileName", "fileImg", "isFavorited"],
+    data() {
+        return {
+            deleteCard: false
+        }
+    },
     methods: {
         openPdf() {
             const encodedPdfName = encodeURIComponent(this.fileName);
@@ -59,20 +72,12 @@ export default {
 </script>
 
 <style>
-.pdf-image{
-    height: 90%;
-}
-
 .pdf-card{
-    height: 300px;
+    height: 320px;
     width: 250px;
-    border-radius: 10px;
     background: var(--background-color);
-}
-
-.internal-card {
-    background: var(--white);
-    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
 }
 
 .favorite{
@@ -86,12 +91,12 @@ export default {
 }
 
 .internal-card {
-    width: 225px;
+    width: 100%;
     height: 220px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 15px auto;
+    background: var(--white);
 }
 
 .function-icon:hover{
@@ -122,6 +127,11 @@ export default {
 
 .delete-function {
     color: red;
+}
+
+.delete-confirm {
+    transition-duration: 0.4s;
+    background: var(--card-gray);
 }
 
 </style>
