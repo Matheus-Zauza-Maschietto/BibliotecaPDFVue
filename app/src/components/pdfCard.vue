@@ -2,15 +2,19 @@
   <div class="pdf-card d-flex flex-column col p-0 m-2" @click="openPdf()">
     <div class="internal-card hover-click position-relative">
         <div class="favorite position-absolute">
-            <font-awesome-icon icon="fa-solid fa-star" style="color: rgb(211 164 0);" class="favorite-icon" v-if="isFavorited" @click.stop="switchFavorite()" />
-            <font-awesome-icon icon="fa-regular fa-star" style="color: rgb(211 164 0);" class="favorite-icon" v-else @click.stop="switchFavorite()" />
+            <font-awesome-icon icon="fa-solid fa-star" style="color: rgb(211 164 0);" class="function-icon" v-if="isFavorited" @click.stop="switchFavorite()" />
+            <font-awesome-icon icon="fa-regular fa-star" style="color: rgb(211 164 0);" class="function-icon" v-else @click.stop="switchFavorite()" />
         </div>
         <font-awesome-icon icon="fa-regular fa-file-pdf" class="pdf-icon position-absolute"/>
         <span class="fs-5 w-100 text-nowrap text-center my-2 position-absolute bottom-0">{{ getPdfName() }}</span>
     </div>
-    <div class="card-functions d-flex justify-content-evenly">
-        <font-awesome-icon icon="fa-solid fa-pencil" class="edit-function hover-click" @click.stop="" />
-        <font-awesome-icon icon="fa-solid fa-trash" class="delete-function hover-click" @click.stop="" />
+    <div class="card-functions d-flex justify-content-evenly align-items-center">
+        <button class="btn btn-dark function-icon-button">
+            <font-awesome-icon icon="fa-solid fa-pencil" class="edit-function" @click.stop="" />
+        </button>
+        <button class="btn btn-dark function-icon-button">
+            <font-awesome-icon icon="fa-solid fa-trash" class="delete-function" @click.stop="" />
+        </button>
     </div>
   </div>
 </template>
@@ -76,7 +80,7 @@ export default {
     left: 5px;
 }
 
-.favorite-icon{
+.function-icon{
     font-size: 30px;
     transition-duration: 0.3s;
 }
@@ -90,9 +94,19 @@ export default {
     margin: 15px auto;
 }
 
-.favorite-icon:hover{
+.function-icon:hover{
     cursor: pointer;
     transform: scale(1.15);
+}
+
+.function-icon-button > svg{
+    font-size: 29px;
+    transition-duration: 0.3s;
+}
+
+.function-icon-button:hover > svg {
+    cursor: pointer;
+    transform: scale(1.10);
 }
 
 .pdf-icon {
@@ -104,12 +118,10 @@ export default {
 
 .edit-function {
     color: var(--card-gray);
-    font-size: 29px;
 }
 
 .delete-function {
     color: red;
-    font-size: 29px;
 }
 
 </style>
