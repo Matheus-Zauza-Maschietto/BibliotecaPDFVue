@@ -21,10 +21,12 @@
 
         <pdfCard 
             v-for="pdf in pdfsList" 
-            :key="pdf.fileName" 
+            :key="pdf.id"
+            :fileId="pdf.id" 
             :fileName="pdf.fileName" 
             :isFavorited="pdf.isFavorite"
             @favorite="switchFavorite(pdf, $event)"
+            @deleted="deletePDF(pdf)"
         />
       </div>
     </body>
@@ -63,6 +65,9 @@ export default {
     switchFavorite(pdf, event){
       pdf.isFavorite = event
       this.pdfsList = this.pdfsList.sort((a, b) => b.isFavorite - a.isFavorite);
+    },
+    deletePDF(element) {
+      this.pdfsList = this.pdfsList.filter(pdf => pdf.id !== element.id);
     },
     async loadPdfs(){
       try {
