@@ -13,6 +13,10 @@ class Pdf{
         return api.delete(`/api/Files/${name}`)
     }
 
+    static searchTerm(term){
+        return api.get(`/api/Files/search?query=${term}`)
+    }
+
     static favorite(name){
         return api.patch(`/api/Files/favorite/${name}`)
     }

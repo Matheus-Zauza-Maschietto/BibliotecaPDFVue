@@ -10,15 +10,19 @@
       <titleComponent/>
       <div class="col-11 col-md-9 m-auto p-1 mt-5 cabecalho rounded position-relative">
         <h2>Meus PDFs</h2>
-        <span class="appendPDFBtn fs-1 hover-click" @click="openModal()">
-          <font-awesome-icon icon="fa-solid fa-plus"/>
-        </span>
+        <div class="d-flex flex-row-reverse justify-content-evenly align-items-center">
+          <font-awesome-icon icon="fa-solid fa-plus" class="fs-1 hover-click add-pdf-btn" @click="openModal()" />
+          <searchPdfComponent 
+            class="search-component"
+            @foundedPdfs="loadSearchPdfs($event)"  
+            @cleanSearch="loadPdfs()"
+          />
+        </div>
       </div>
     </header>
     <body class="col-11 col-md-9 m-auto p-1 overflow-y-auto overflow-x-hidden rounded">
       <loadingComponent v-if="showLoadComponent" />
       <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 justify-content-around g-4 p-4" v-else>
-
         <pdfCard 
             v-for="pdf in pdfsList" 
             :key="pdf.id"
@@ -35,6 +39,7 @@
 
 <script>
 import 'bootstrap/dist/css/bootstrap.css';
+import searchPdfComponent from '@/components/searchPdfComponent.vue';
 import pdfCard from '@/components/pdfCard.vue';
 import newPDFModal from '@/components/newPDFModal.vue';
 import Pdf from '@/services/Pdf';
@@ -49,7 +54,8 @@ export default {
     newPDFModal,
     titleComponent,
     loadingComponent,
-    userComponent
+    userComponent,
+    searchPdfComponent
   },
   data(){
     return{
@@ -80,6 +86,9 @@ export default {
       finally{
         this.showLoadComponent = false;
       }
+    },
+    loadSearchPdfs(pdfs) {
+      this.pdfsList = pdfs
     }
   },
 
@@ -112,11 +121,15 @@ export default {
     background-color: var(--bs-body-bg);
   }
 
-  .appendPDFBtn{
-    top: 50%;
-    transform: translateY(-50%);
-    position: absolute;
-    right: 10px;
+  .cabecalho {
+    min-height: 110px;
+  }
+
+  .add-pdf-btn{
     color: var(--background-color);
+  }
+
+  .search-component{
+    width: 93%;
   }
 </style>

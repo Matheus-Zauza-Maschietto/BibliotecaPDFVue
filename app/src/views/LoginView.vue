@@ -17,7 +17,7 @@
                         {{ errorMessage }}
                     </span>
                 </div>
-                <button type="submit" class="btn btn-dark w-100" @click="login()">Fazer login</button>
+                <button type="submit" class="btn btn-dark w-100">Fazer login</button>
             </form>
             <router-link to="cadastro" class="m-3 text-decoration-none">Criar uma conta</router-link>
         </div>
