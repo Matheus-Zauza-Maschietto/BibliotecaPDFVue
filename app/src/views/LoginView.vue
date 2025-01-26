@@ -17,6 +17,7 @@
                         {{ errorMessage }}
                     </span>
                 </div>
+                <loadingComponent v-if="isLogging"/>
                 <button type="submit" class="btn btn-dark w-100">Fazer login</button>
             </form>
             <router-link to="cadastro" class="m-3 text-decoration-none">Criar uma conta</router-link>
@@ -27,6 +28,7 @@
 <script>
 import titleComponent from '@/components/titleComponent.vue';
 import Usuario from '@/services/Usuario';
+import loadingComponent from '@/components/loadingComponent.vue';
 
 export default {
     name: "LoginView",
@@ -36,30 +38,36 @@ export default {
                 email: '',
                 password: ''
             },
+            isLogging: false,
             showErrors: false,
             errorMessage: '',
         }
     },
     components: {
-        titleComponent
+        titleComponent,
+        loadingComponent
     },
     methods: {
-        login() {
-            Usuario.login(this.fields)
-                .then((response) => {
-                    Usuario.setToken(response.data.response)
-                    this.$store.commit('token', response.data.response)
-                    localStorage.setItem('token', response.data.response);
-                    this.$router.push('/')
-                })
-                .catch((error) => {
-                    this.showErrors = true;
-                    this.errorMessage = error?.response?.data?.messages?.find(p => p) ?? "Houve um erro, tente novamente mais tarde."
-                    
-                    setTimeout(() => {
-                        this.showErrors = false;
-                    }, 6000)
-                })
+        async login() {
+            try{
+                this.isLogging = true;
+                const response = await Usuario.login(this.fields)
+                Usuario.setToken(response.data.response)
+                this.$store.commit('token', response.data.response)
+                localStorage.setItem('token', response.data.response);
+                this.$router.push('/')
+            }
+            catch(error){
+                this.showErrors = true;
+                this.errorMessage = error?.response?.data?.messages?.find(p => p) ?? "Houve um erro, tente novamente mais tarde."
+                
+                setTimeout(() => {
+                    this.showErrors = false;
+                }, 6000)
+            }
+            finally{
+                this.isLogging = false;
+            }
         }
     }
 };

@@ -32,11 +32,9 @@
         methods: {
             async fetchPdf() {
                 try {
-                    const encodedPdfName = this.$route.params.encodedPdfName;
+                    const pdfId = this.$route.params.pdfId;
 
-                    const decodedPdfName = decodeURIComponent(encodedPdfName);
-
-                    const response = await Pdf.getFile(decodedPdfName)
+                    const response = await Pdf.getFile(pdfId)
 
                     const fileContent = response.data;
 

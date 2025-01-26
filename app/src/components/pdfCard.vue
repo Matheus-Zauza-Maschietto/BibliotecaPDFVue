@@ -60,8 +60,7 @@ export default {
     },
     methods: {
         openPdf() {
-            const encodedPdfName = encodeURIComponent(this.fileName);
-            this.$router.push(`/pdf/${encodedPdfName}`);
+            this.$router.push(`/pdf/${this.fileId}`);
         },
         getPdfName(){
             let fileName = this.fileName.replace('.pdf', '');
@@ -73,14 +72,14 @@ export default {
         async switchFavorite(){
             if(this.isFavorited){
                 this.$emit('favorite', false);
-                const response = await Pdf.unfavorite(this.fileName);
+                const response = await Pdf.unfavorite(this.fileId);
                 if(!response.status == 200){
                     this.$emit('favorite', true);
                 }
             }
             else{
                 this.$emit('favorite', true);
-                const response = await Pdf.favorite(this.fileName);
+                const response = await Pdf.favorite(this.fileId);
                 if(!response.status == 200){
                     this.$emit('favorite', false);
                 }
@@ -89,7 +88,7 @@ export default {
         async deletePdf(){
             try{
                 this.tryingDelete = true
-                let response = await Pdf.deleteByName(this.fileName)
+                let response = await Pdf.deleteById(this.fileId)
                 if(response.status == 200){
                     this.$emit('deleted')
                 }

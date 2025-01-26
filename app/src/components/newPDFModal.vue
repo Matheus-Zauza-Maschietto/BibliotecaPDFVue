@@ -1,38 +1,55 @@
 <template>
     <div class="modal fade newPDFModal" :class="{show: modalIsOpen}" :style="{display: getDisplay()}">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <form class="modal-content" @submit.prevent="postPDFFile">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Selecionar o arquivo PDF</h1>
                     <span style="color: red;" class="fs-3 hover-click" @click="closeModal()">
                         <font-awesome-icon icon="fa-solid fa-xmark"/>
                     </span>
                 </div>
-                <div class="modal-body">    
-                    <div class="my-5 col-9 m-auto">
+                <div class="modal-body d-flex flex-column align-items-center">    
+                    <div class="col-9 my-5">
                         <input 
                             class="form-control" 
                             type="file" 
                             accept=".pdf" 
                             @change="handleFileChange"
+                            :value="inputFileValue"
                         >
                     </div>
-                    <div class="form-check mt-5 mb-3 d-flex justify-content-center">
+                    <div class="form-check col-9 d-flex justify-content-center mb-5">
                         <input 
                             class="form-check-input me-3" 
                             type="checkbox" 
                             value="" 
-                            id="flexCheckDefault" 
+                            id="publicPdf" 
+                            :checked="publicFile"
+                            v-model="publicFile"
+                        >
+
+                        <label class="form-check-label text-white" for="publicPdf">
+                            Arquivo de acesso publico
+                        </label>
+                    </div>
+                    <div class="form-check col-9 d-flex justify-content-center mb-3">
+                        <input 
+                            class="form-check-input me-3" 
+                            type="checkbox" 
+                            value="" 
+                            id="personalizedName" 
                             :checked="personalizedText"
-                            @click="personalizedText = !personalizedText">
-                        <label class="form-check-label text-white" for="flexCheckDefault">
+                            v-model="personalizedText"
+                        >
+
+                        <label class="form-check-label text-white" for="personalizedName">
                             Adicionar nome personalizado ao arquivo
                         </label>
                     </div>
-                    <div class="col-9 m-auto">
+                    <div class="col-9 mb-5">
                         <input 
                             type="text" 
-                            class="form-control mb-5" 
+                            class="form-control" 
                             :style="{display: getPersonalizedTextDisplay()}" 
                             placeholder="Digite o nome do arquivo ..." 
                             v-model="customFileName">
@@ -41,15 +58,14 @@
                 <div class="modal-footer d-flex flex-column justify-content-around">
                     <loadingComponent v-if="disableButton"/>
                     <button 
-                        type="button" 
+                        type="submit" 
                         class="btn btn-success mx-auto my-2" 
-                        @click="postPDFFile"
                         :disabled="disableButton"
                     >
                         Adicionar PDF selecionado
                     </button>
                 </div>
-            </div> 
+            </form> 
         </div>
     </div>
 </template>
@@ -68,6 +84,8 @@ export default {
     },
     data() {
         return {
+            publicFile: false,
+            inputFileValue: null,
             personalizedText: false,
             file: null,
             customFileName: '',
@@ -84,6 +102,7 @@ export default {
             this.file = null;
             this.personalizedText = false;
             this.customFileName = '';
+            this.inputFileValue = null;
             this.disableButton = false;
         },
 
@@ -92,6 +111,7 @@ export default {
         },
 
         handleFileChange(event) {
+            console.log(this.inputFileValue)
             const selectedFile = event.target.files[0];
             if (selectedFile && selectedFile.type === "application/pdf") {
                 this.file = selectedFile;
@@ -110,6 +130,7 @@ export default {
             }
 
             const formData = new FormData();
+            formData.append('fileName', 'meuteste')
             if (this.personalizedText && this.customFileName.trim()) {
                 formData.append('formFile', this.file, this.customFileName.trim());
             }
@@ -130,6 +151,7 @@ export default {
                 this.personalizedText = false;
                 this.customFileName = '';
                 this.disableButton = false;
+                this.inputFileValue = null;
                 this.$emit('newPdf', true)
             }
         }
@@ -138,10 +160,10 @@ export default {
 </script>
 
 <style scoped>
-.newPDFModal {
-    backdrop-filter: blur(10px);
-}
-.modal-content {
-    background-color: #1D1D1D;
-}
+    .newPDFModal {
+        backdrop-filter: blur(10px);
+    }
+    .modal-content {
+        background-color: #1D1D1D;
+    }
 </style>

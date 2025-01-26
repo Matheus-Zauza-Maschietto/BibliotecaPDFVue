@@ -29,7 +29,7 @@ const routes = [
     },
   },
   {
-    path: '/pdf/:encodedPdfName',
+    path: '/pdf/:pdfId',
     name: 'pdf',
     component: () => import('../views/PdfView.vue'),
     meta: {

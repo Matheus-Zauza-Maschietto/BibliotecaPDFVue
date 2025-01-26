@@ -5,24 +5,24 @@ class Pdf{
         return api.get('/api/Files')
     }
 
-    static getByName(name){
-        return api.get(`/api/Files/${name}`)
+    static getById(id){
+        return api.get(`/api/Files/${id}`)
     }
 
-    static deleteByName(name){
-        return api.delete(`/api/Files/${name}`)
+    static deleteById(id){
+        return api.delete(`/api/Files/${id}`)
     }
 
     static searchTerm(term){
         return api.get(`/api/Files/search?query=${term}`)
     }
 
-    static favorite(name){
-        return api.patch(`/api/Files/favorite/${name}`)
+    static favorite(id){
+        return api.patch(`/api/Files/favorite/${id}`)
     }
 
-    static unfavorite(name){
-        return api.patch(`/api/Files/unfavorite/${name}`)
+    static unfavorite(id){
+        return api.patch(`/api/Files/unfavorite/${id}`)
     }
 
     static postFile(formData){
@@ -34,8 +34,8 @@ class Pdf{
         );
     }
 
-    static getFile(fileName){
-        return api.get(`/api/Files/${fileName}/file`,{
+    static getFile(id){
+        return api.get(`/api/Files/${id}/file`,{
             responseType: 'blob'
           });
     }
