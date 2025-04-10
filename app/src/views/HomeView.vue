@@ -37,6 +37,7 @@
         />
       </div>
     </body>
+    <ChatComponent />
   </div>
 </template>
 
@@ -48,7 +49,8 @@ import newPDFModal from '@/components/newPDFModal.vue';
 import Pdf from '@/services/Pdf';
 import titleComponent from '@/components/titleComponent.vue';
 import loadingComponent from '@/components/loadingComponent.vue';
-import userComponent from '@/components/userComponent.vue'
+import userComponent from '@/components/userComponent.vue';
+import ChatComponent from '@/components/ChatComponent.vue';
 
 export default {
   name: 'HomeView',
@@ -58,7 +60,8 @@ export default {
     titleComponent,
     loadingComponent,
     userComponent,
-    searchPdfComponent
+    searchPdfComponent,
+    ChatComponent
   },
   data(){
     return{
