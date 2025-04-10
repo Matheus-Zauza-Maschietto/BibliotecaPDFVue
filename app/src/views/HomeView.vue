@@ -9,14 +9,17 @@
     <header class="mb-3">
       <titleComponent/>
       <div class="col-11 col-md-9 m-auto p-1 mt-5 cabecalho rounded position-relative">
-        <h2>Meus PDFs</h2>
-        <div class="d-flex flex-row-reverse justify-content-evenly align-items-center">
-          <font-awesome-icon icon="fa-solid fa-plus" class="fs-1 hover-click add-pdf-btn col-3" @click="openModal()" />
+        <h2 class="text-center pt-3">Meus PDFs</h2>
+        <div class="d-flex align-items-center gap-3 px-3">
+          <div class="flex-grow-1">
           <searchPdfComponent 
-            class="col-10"
-            @foundedPdfs="loadSearchPdfs($event)"  
+                        @foundedPdfs="loadSearchPdfs($event)"  
             @cleanSearch="loadPdfs()"
           />
+</div>
+          <div class="flex-shrink-0">
+            <font-awesome-icon icon="fa-solid fa-plus" class="fs-1 hover-click add-pdf-btn" @click="openModal()" />
+          </div>
         </div>
       </div>
     </header>

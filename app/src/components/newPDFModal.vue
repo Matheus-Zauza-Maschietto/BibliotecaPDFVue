@@ -73,6 +73,7 @@
 <script>
 import Pdf from '@/services/Pdf';
 import loadingComponent from './loadingComponent.vue';
+import { PDFDocument } from 'pdf-lib';
 
 export default {
     name: "newPDFModal",
@@ -110,14 +111,55 @@ export default {
             return this.personalizedText ? "block" : "none";
         },
 
-        handleFileChange(event) {
-            const selectedFile = event.target.files[0];
-            if (selectedFile && selectedFile.type === "application/pdf") {
-                this.file = selectedFile;
-            } else {
-                this.file = null;
-                alert("Por favor selecione um arquivo PDF valido.");
+        clearFileInput() {
+            this.file = null;
+            if (this.$refs.fileInput) {
+                this.$refs.fileInput.value = '';
             }
+        },
+
+        isValidPdf(file) {
+            if (!file || file.type !== "application/pdf") {
+                alert("Por favor selecione um arquivo PDF válido.");
+                return false;
+            }
+            return true;
+        },
+
+        async checkPdfEncryption(arrayBuffer) {
+            try {
+                const pdfDoc = await PDFDocument.load(arrayBuffer);
+                
+                if (pdfDoc.isEncrypted) {
+                    alert("Não é possível adicionar PDFs criptografados. Por favor, remova a criptografia do arquivo antes de enviá-lo.");
+                    return true;
+                }
+                
+                return false;
+            } catch (error) {
+                console.error('Erro ao verificar PDF:', error);
+                alert("Erro ao verificar o arquivo PDF. Por favor, verifique se o arquivo não está corrompido.");
+                return true;
+            }
+        },
+
+        async handleFileChange(event) {
+            const selectedFile = event.target.files[0];
+            
+            if (!this.isValidPdf(selectedFile)) {
+                this.clearFileInput();
+                return;
+            }
+
+            const arrayBuffer = await selectedFile.arrayBuffer();
+            const isEncrypted = await this.checkPdfEncryption(arrayBuffer);
+            
+            if (isEncrypted) {
+                this.clearFileInput();
+                return;
+            }
+
+            this.file = selectedFile;
         },
 
         async postPDFFile() {
