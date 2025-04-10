@@ -1,6 +1,9 @@
 <template>
   <form @submit.prevent="searchTerm(query)" class="input-group my-3">
         <input type="text" v-model="query" class="form-control" placeholder="Digite uma busca ...">
+        <button v-if="query" type="button" class="input-group-text" @click="clearInput">
+            <font-awesome-icon icon="fa-solid fa-xmark" class="fs-3 p-1" />
+        </button>
         <button type="submit" class="input-group-text" id="basic-addon1">
                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="fs-3 p-1" v-if="!isSearching" />
                 <div class="spinner-border" role="status" aria-hidden="true" v-else/>
@@ -45,11 +48,15 @@ export default {
         },
         cleanSearch() {
             this.$emit('cleanSearch');
+        },
+        clearInput() {
+            this.query = '';
+            this.cleanSearch();
         }
     }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

@@ -2,7 +2,7 @@
   <router-view/>
 </template>
 
-<style>
+<style scoped>
 
 *{
   --background-color: #1D1D1D;

@@ -106,7 +106,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .confirm-body {
     transition-delay: 0.2s;
 }

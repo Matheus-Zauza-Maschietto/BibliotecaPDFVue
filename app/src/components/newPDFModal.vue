@@ -15,7 +15,7 @@
                             type="file" 
                             accept=".pdf" 
                             @change="handleFileChange"
-                            :value="inputFileValue"
+                            ref="fileInput"
                         >
                     </div>
                     <div class="form-check col-9 d-flex justify-content-center mb-5">
@@ -111,7 +111,6 @@ export default {
         },
 
         handleFileChange(event) {
-            console.log(this.inputFileValue)
             const selectedFile = event.target.files[0];
             if (selectedFile && selectedFile.type === "application/pdf") {
                 this.file = selectedFile;
@@ -130,7 +129,7 @@ export default {
             }
 
             const formData = new FormData();
-            formData.append('fileName', 'meuteste')
+            formData.append('isPublic', this.publicFile);
             if (this.personalizedText && this.customFileName.trim()) {
                 formData.append('formFile', this.file, this.customFileName.trim());
             }

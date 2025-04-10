@@ -11,9 +11,9 @@
       <div class="col-11 col-md-9 m-auto p-1 mt-5 cabecalho rounded position-relative">
         <h2>Meus PDFs</h2>
         <div class="d-flex flex-row-reverse justify-content-evenly align-items-center">
-          <font-awesome-icon icon="fa-solid fa-plus" class="fs-1 hover-click add-pdf-btn" @click="openModal()" />
+          <font-awesome-icon icon="fa-solid fa-plus" class="fs-1 hover-click add-pdf-btn col-3" @click="openModal()" />
           <searchPdfComponent 
-            class="search-component"
+            class="col-10"
             @foundedPdfs="loadSearchPdfs($event)"  
             @cleanSearch="loadPdfs()"
           />
@@ -127,9 +127,5 @@ export default {
 
   .add-pdf-btn{
     color: var(--background-color);
-  }
-
-  .search-component{
-    width: 93%;
   }
 </style>
