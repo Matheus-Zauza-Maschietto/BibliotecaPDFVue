@@ -234,7 +234,7 @@ export default {
     position: fixed;
     bottom: 0;
     left: 20px;
-    width: 500px;
+    width: 400px;
     background-color: white;
     border-radius: 8px 8px 0 0;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -258,7 +258,7 @@ export default {
 }
 
 .chat-body {
-    height: 600px;
+    height: 450px;
     display: flex;
     flex-direction: column;
 }

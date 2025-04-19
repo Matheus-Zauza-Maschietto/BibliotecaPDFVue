@@ -188,6 +188,7 @@ export default {
                 alert('Erro ao adicionar PDF, por favor tente novamente !');
             }
             finally {
+                this.clearFileInput();
                 this.file = null;
                 this.personalizedText = false;
                 this.customFileName = '';
