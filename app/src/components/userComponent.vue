@@ -7,7 +7,7 @@
         <div class="z-2 side-menu position-relative position-fixed top-0 end-0"
             :style="{ 'transform': isOpen ? 'translateX(0)' : 'translateX(100%)' }">
 
-            <div class="top-0 start-0 w-75 fs-4 mt-5 text-black">
+            <div class="fs-4 mt-5 text-black" id="user-name">
                 {{ name }}
             </div>
             <br>
@@ -19,7 +19,7 @@
                     <router-link to="perfil" class="fs-4 text-decoration-none">Configurações</router-link>
                 </li>
             </ul>
-            <div class="w-100 bottom-0 end-0 m-2 position-absolute">
+            <div class="w-100 bottom-0 end-0 position-absolute d-flex justify-content-center my-2">
                 <button @click.stop="logout()" class="btn btn-danger logout w-75 fs-4 mx-auto py-1 rounded">
                     Logout
                 </button>
@@ -80,6 +80,14 @@ export default {
 </script>
 
 <style scoped>
+
+#user-name {
+    top: 0px;
+    left: 0px;
+    width: 70%!important;
+    padding: 0px 10px;
+}
+
 .userMenu {
     width: 70px;
     height: 70px;

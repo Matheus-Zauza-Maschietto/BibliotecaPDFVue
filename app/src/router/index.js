@@ -51,14 +51,6 @@ const routes = [
     meta: {
       requireAuth: false
     },
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-    meta: {
-      requireAuth: true
-    },
   }
 ]
 
